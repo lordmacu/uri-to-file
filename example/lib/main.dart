@@ -25,7 +25,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _isLoading = false, _hasError = false;
-  File? _file;
+  File _file;
 
   @override
   void initState() {
@@ -45,17 +45,17 @@ class _MyAppState extends State<MyApp> {
 
   /// To get initial uri
   Future<void> _processInitialUri() async {
-    String? uriString = await getInitialLink();
+    String uriString = await getInitialLink();
     _processUri(uriString);
   }
 
   /// To listen for uri
   void _listenForUri() {
-    linkStream.listen((uriString) => _processUri(uriString));
+    getLinksStream().listen((uriString) => _processUri(uriString));
   }
 
   /// To process uri
-  Future<void> _processUri(String? uriString) async {
+  Future<void> _processUri(String uriString) async {
     try {
       if (uriString != null) {
         _hasError = false;
@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   /// To get file name
-  String _getFileNameString(File? file) {
+  String _getFileNameString(File file) {
     return _file?.path.substring(
             (_file?.path.lastIndexOf(Platform.pathSeparator) ?? -1) + 1) ??
         '';
